@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TaskManagementApi.Models;
 using TaskManagementApi.Models.DTOs;
+using TaskManagementApi.Services;
 using TaskManagementApi.Services.Interfaces;
 
 namespace TaskManagementApi.Controllers
@@ -13,11 +14,13 @@ namespace TaskManagementApi.Controllers
     {
         private readonly ITaskService _taskService;
         protected APIResponse _response;
+        private readonly RabbitMqConsumerService _rabbitMqConsumerService;
 
-        public TaskController(ITaskService taskService)
+        public TaskController(ITaskService taskService, RabbitMqConsumerService rabbitMqConsumerService)
         {
             _response = new APIResponse();
             _taskService = taskService;
+            _rabbitMqConsumerService = rabbitMqConsumerService;
         }
 
         [HttpPost]
@@ -92,6 +95,14 @@ namespace TaskManagementApi.Controllers
                 return NotFound(); 
             }
             return NoContent(); 
+        }
+
+        [HttpGet("consume")]
+        public async Task<IActionResult> StartConsuming()
+        {
+            // Tüketici başlatma
+            _rabbitMqConsumerService.StartConsuming();
+            return Ok("Consuming has started.");
         }
 
     }

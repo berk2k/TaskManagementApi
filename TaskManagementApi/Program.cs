@@ -27,6 +27,7 @@ namespace TaskManagementApi
                 return factory.CreateConnection();
             });
 
+            builder.Services.AddSingleton<RabbitMqConsumerService>();
             builder.Services.AddScoped<IMessageQueueService, MessageQueueService>();
             builder.Services.AddScoped<ITaskService, TaskService>();
             builder.Services.AddEndpointsApiExplorer();
@@ -52,6 +53,9 @@ namespace TaskManagementApi
 
             // RabbitMQ baðlantýsýný servis olarak ekleme
             builder.Services.AddSingleton(factory);
+
+           
+            
 
             var app = builder.Build();
 

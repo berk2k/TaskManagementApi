@@ -29,11 +29,13 @@ namespace TaskManagementApi.Services
                     DueDate = task.DueDate,
                 };
 
+                
                 await _context.tasks.AddAsync(createdTask);
                 await _context.SaveChangesAsync();
 
-                // RabbitMQ'ya mesaj gönder
                 await _messageQueueService.PublishMessageAsync(createdTask);
+
+
 
                 return createdTask;
             }
