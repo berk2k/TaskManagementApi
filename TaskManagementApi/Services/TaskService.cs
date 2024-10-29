@@ -9,12 +9,12 @@ namespace TaskManagementApi.Services
     public class TaskService : ITaskService
     {
         private readonly ApplicationDbContext _context;
-        private readonly IMessageQueueService _messageQueueService; // RabbitMQ servisi
+        private readonly MessageQueueService _messageQueueService;
 
-        public TaskService(ApplicationDbContext context, IMessageQueueService messageQueueService)
+        public TaskService(ApplicationDbContext context, MessageQueueService messageQueueService)
         {
             _context = context;
-            _messageQueueService = messageQueueService; // Dependency injection
+            _messageQueueService = messageQueueService;
         }
 
         public async Task<TaskModel> CreateTaskAsync(CreateTaskDTO task)

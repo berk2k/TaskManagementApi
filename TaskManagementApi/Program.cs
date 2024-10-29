@@ -28,7 +28,7 @@ namespace TaskManagementApi
             });
 
             builder.Services.AddSingleton<RabbitMqConsumerService>();
-            builder.Services.AddScoped<IMessageQueueService, MessageQueueService>();
+            builder.Services.AddSingleton<MessageQueueService>();
             builder.Services.AddScoped<ITaskService, TaskService>();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
